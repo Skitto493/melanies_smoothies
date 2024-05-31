@@ -16,7 +16,8 @@ my_df = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME')
 
 ingredients_list = st.multiselect(
     'Choose up to 5 ingredients:',
-    my_df
+    my_df,
+    max_selections=5
     )
 if ingredients_list:
     ingredients_string = ''
@@ -28,8 +29,9 @@ if ingredients_list:
     insert_event = st.button('Submit Order')
     if(insert_event):
     
-        insert_stmnt = """ insert into smoothies.public.orders(ingredients)
-                values ('""" + ingredients_string + """')"""
+        insert_stmnt = """ insert into smoothies.public.orders(ingredients, name_on_order)
+                values ('""" + ingredients_string + """','"""+order_name+"""')"""
         session.sql(insert_stmnt).collect()
         #st.write(insert_stmnt)
-        st.success('Your Smoothie has been ordered!', icon="✅")
+        success_msg = 'Your Smoothie has been ordered, ' + order_name + '!'
+        st.success(success_msg, icon="✅")
