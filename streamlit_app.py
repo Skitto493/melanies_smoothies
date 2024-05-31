@@ -9,6 +9,9 @@ st.write(
     """
 )
 
+order_name = st.text_input("Your name: ")
+st.write("Order for: ", order_name)
+
 cnx = st.connection("snowflake")
 session = cnx.session()
 my_df = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
